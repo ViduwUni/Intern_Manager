@@ -1,18 +1,35 @@
 const mongoose = require('mongoose');
 
 const attendanceSchema = new mongoose.Schema({
-    intern: { type: mongoose.Schema.Types.ObjectId, ref: 'Intern', required: true },
-    date: { type: Date, required: true },
-    status: {
-        type: String,
-        enum: ['present', 'absent', 'short_leave', 'half_day', 'leave'],
+    internId: { type: mongoose.Schema.Types.ObjectId, ref: 'Intern', required: true },
+    date: {
+        type: Date,
         required: true
     },
-    checkIn: { type: String },
-    checkOut: { type: String },
-    remarks: { type: String }
+    status: {
+        type: String,
+        enum: [
+            'Present',
+            'Leave',
+            'Half Day',
+            'Short Leave',
+            'Absent'
+        ],
+        required: true
+    },
+    checkIn: {
+        type: String
+    },
+    checkOut: {
+        type: String
+    }
 }, { timestamps: true });
 
-attendanceSchema.index({ intern: 1, date: 1 }, { unique: true });
+attendanceSchema.index({
+    internId: 1,
+    date: 1
+}, {
+    unique: true
+});
 
 module.exports = mongoose.model('Attendance', attendanceSchema);
