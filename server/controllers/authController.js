@@ -2,6 +2,7 @@ const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
+// Get all users (excluding passwords)
 exports.getAllUsers = async (req, res) => {
     try {
         const users = await User.find().select('-password');
@@ -11,6 +12,7 @@ exports.getAllUsers = async (req, res) => {
     }
 };
 
+// Register new user
 exports.register = async (req, res) => {
     const { name, email, password, role } = req.body;
     try {
@@ -22,6 +24,7 @@ exports.register = async (req, res) => {
     }
 };
 
+// Login user
 exports.login = async (req, res) => {
     const { email, password } = req.body;
     try {
@@ -33,7 +36,37 @@ exports.login = async (req, res) => {
 
         const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1d' });
 
-        res.json({ token, user: {_id: user._id, name: user.name, role: user.role } });
+        res.json({ token, user: { _id: user._id, name: user.name, role: user.role } });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+};
+
+// Delete user by ID
+exports.deleteUser = async (req, res) => {
+    try {
+        await User.findByIdAndDelete(req.params.id);
+        res.json({ message: 'User deleted successfully' });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+};
+
+// Update user info + optional password change
+exports.updateUser = async (req, res) => {
+    const { name, email, role, password } = req.body;
+    try {
+        const updateData = { name, email, role };
+
+        if (password) {
+            const hashed = await bcrypt.hash(password, 10);
+            updateData.password = hashed;
+        }
+
+        const updatedUser = await User.findByIdAndUpdate(req.params.id, updateData, { new: true });
+        if (!updatedUser) return res.status(404).json({ error: 'User not found' });
+
+        res.json({ message: 'User updated successfully' });
     } catch (err) {
         res.status(500).json({ error: err.message });
     }

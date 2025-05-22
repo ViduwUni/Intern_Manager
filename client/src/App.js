@@ -4,9 +4,14 @@ import RoleProtectedRoute from './components/RoleProtectedRoute';
 // Pages
 import Register from './pages/Register';
 import Login from './pages/Login';
-import Dashboard from './pages/Dashboard';
+import UserManagement from './pages/UserManagement';
+// Dashboards
+import AdminDashboard from './pages/AdminDashboard';
+import SupervisorDashboard from './pages/SupervisorDashboard';
 import InternDashboard from './pages/InternDashboard';
+// Other
 import Interns from './pages/Interns';
+import Attendance from './pages/Attendance';
 
 function App() {
   return (
@@ -14,7 +19,30 @@ function App() {
       <Route path='/' element={<Login />} />
       <Route path='/register' element={<Register />} />
 
-      {/* Protected with role based auth and also check for token and isLogged in */}
+      <Route
+        path="/adminDashboard"
+        element={
+          <RoleProtectedRoute allowedRoles={['admin', 'manager']}>
+            <AdminDashboard />
+          </RoleProtectedRoute>
+        }
+      />
+      <Route
+        path="/supervisorDashboard"
+        element={
+          <RoleProtectedRoute allowedRoles={['supervisor']}>
+            <SupervisorDashboard />
+          </RoleProtectedRoute>
+        }
+      />
+      <Route
+        path="/internDashboard"
+        element={
+          <RoleProtectedRoute allowedRoles={['intern']}>
+            <InternDashboard />
+          </RoleProtectedRoute>
+        }
+      />
       <Route
         path="/interns"
         element={
@@ -24,18 +52,18 @@ function App() {
         }
       />
       <Route
-        path="/dashboard"
+        path="/userManager"
         element={
           <RoleProtectedRoute allowedRoles={['admin', 'manager']}>
-            <Dashboard />
+            <UserManagement />
           </RoleProtectedRoute>
         }
       />
       <Route
-        path="/internDashboard"
+        path="/attendance"
         element={
-          <RoleProtectedRoute allowedRoles={['intern']}>
-            <InternDashboard />
+          <RoleProtectedRoute allowedRoles={['admin', 'manager']}>
+            <Attendance />
           </RoleProtectedRoute>
         }
       />

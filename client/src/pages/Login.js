@@ -17,12 +17,12 @@ export default function Login() {
             const res = await axios.post('http://localhost:5000/api/auth/login', form);
             const { user, token } = res.data;
 
-            login(user, token); // save user and token in context/localStorage
+            login(user, token);
 
-            // 🔁 Redirect based on role
+            // Redirect based on role
             switch (user.role) {
                 case 'admin':
-                    navigate('/dashboard');
+                    navigate('/adminDashboard');
                     break;
                 case 'manager':
                     navigate('/managerDashboard');
