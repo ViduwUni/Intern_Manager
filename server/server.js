@@ -18,6 +18,9 @@ app.use('/api/interns', internRoutes);
 const attendanceRoutes = require('./routes/attendanceRoutes');
 app.use('/api/attendance', attendanceRoutes);
 
+const salaryRoutes = require('./routes/salaryRoutes');
+app.use('/api/salaries', salaryRoutes);
+
 
 mongoose.connect(process.env.MONGO_URI)
     .then(() => {

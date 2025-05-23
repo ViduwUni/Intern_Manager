@@ -70,3 +70,17 @@ exports.updateIntern = async (req, res) => {
         res.status(500).json({ error: 'Failed to update intern' });
     }
 };
+
+
+exports.getInternByUserId = async (req, res) => {
+    try {
+        const userId = req.params.userId;
+        const intern = await Intern.findOne({ user: userId }); // Use correct field name
+        if (!intern) {
+            return res.status(404).json({ message: "Intern not found" });
+        }
+        res.json(intern);
+    } catch (error) {
+        res.status(500).json({ message: "Server error", error: error.message });
+    }
+};
