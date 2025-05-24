@@ -17,20 +17,35 @@ import Interns from './pages/Interns';
 import Attendance from './pages/Attendance';
 import Salary from './pages/Salary';
 import InternSalary from './components/InternSalary';
+import NavBar from './components/NavBar';
+
+// Navbar for authenticated pages
+function AuthLayout({ children }) {
+  return (
+    <>
+      <NavBar />
+      {children}
+    </>
+  );
+}
 
 function App() {
   return (
     <>
-      <ToastContainer position='top-right' autoClose={3000} />
+      <ToastContainer position="top-right" autoClose={3000} />
       <Routes>
-        <Route path='/' element={<Login />} />
-        <Route path='/register' element={<Register />} />
+        {/* Public Routes */}
+        <Route path="/" element={<Login />} />
+        <Route path="/register" element={<Register />} />
 
+        {/* Admin && Manager && Supervisor */}
         <Route
           path="/adminDashboard"
           element={
             <RoleProtectedRoute allowedRoles={['admin']}>
-              <AdminDashboard />
+              <AuthLayout>
+                <AdminDashboard />
+              </AuthLayout>
             </RoleProtectedRoute>
           }
         />
@@ -38,23 +53,9 @@ function App() {
           path="/managerDashboard"
           element={
             <RoleProtectedRoute allowedRoles={['manager']}>
-              <ManagerDashboard />
-            </RoleProtectedRoute>
-          }
-        />
-        <Route
-          path="/supervisorDashboard"
-          element={
-            <RoleProtectedRoute allowedRoles={['supervisor']}>
-              <SupervisorDashboard />
-            </RoleProtectedRoute>
-          }
-        />
-        <Route
-          path="/internDashboard"
-          element={
-            <RoleProtectedRoute allowedRoles={['intern']}>
-              <InternDashboard />
+              <AuthLayout>
+                <ManagerDashboard />
+              </AuthLayout>
             </RoleProtectedRoute>
           }
         />
@@ -62,7 +63,9 @@ function App() {
           path="/interns"
           element={
             <RoleProtectedRoute allowedRoles={['admin', 'manager']}>
-              <Interns />
+              <AuthLayout>
+                <Interns />
+              </AuthLayout>
             </RoleProtectedRoute>
           }
         />
@@ -70,7 +73,9 @@ function App() {
           path="/userManager"
           element={
             <RoleProtectedRoute allowedRoles={['admin', 'manager']}>
-              <UserManagement />
+              <AuthLayout>
+                <UserManagement />
+              </AuthLayout>
             </RoleProtectedRoute>
           }
         />
@@ -78,7 +83,9 @@ function App() {
           path="/attendance"
           element={
             <RoleProtectedRoute allowedRoles={['admin', 'manager', 'supervisor']}>
-              <Attendance />
+              <AuthLayout>
+                <Attendance />
+              </AuthLayout>
             </RoleProtectedRoute>
           }
         />
@@ -86,7 +93,32 @@ function App() {
           path="/salaries"
           element={
             <RoleProtectedRoute allowedRoles={['admin', 'manager', 'supervisor']}>
-              <Salary />
+              <AuthLayout>
+                <Salary />
+              </AuthLayout>
+            </RoleProtectedRoute>
+          }
+        />
+        <Route
+          path="/supervisorDashboard"
+          element={
+            <RoleProtectedRoute allowedRoles={['supervisor']}>
+              <AuthLayout>
+                <SupervisorDashboard />
+              </AuthLayout>
+            </RoleProtectedRoute>
+          }
+        />
+
+
+        {/* Intern */}
+        <Route
+          path="/internDashboard"
+          element={
+            <RoleProtectedRoute allowedRoles={['intern']}>
+              <AuthLayout>
+                <InternDashboard />
+              </AuthLayout>
             </RoleProtectedRoute>
           }
         />
@@ -94,7 +126,9 @@ function App() {
           path="/internSalary"
           element={
             <RoleProtectedRoute allowedRoles={['admin', 'manager', 'supervisor', 'intern']}>
-              <InternSalary />
+              <AuthLayout>
+                <InternSalary />
+              </AuthLayout>
             </RoleProtectedRoute>
           }
         />
