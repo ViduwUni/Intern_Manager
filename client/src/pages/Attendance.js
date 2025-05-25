@@ -83,6 +83,7 @@ export default function Attendance() {
 
     const loadAttendance = async (internId) => {
         if (!internId) return;
+        console.log(internId);
         try {
             const res = await API.get(`/api/attendance/calendar/${internId}?month=${month}&year=${year}`);
             const data = res.data;

@@ -18,24 +18,7 @@ export default function Login() {
             const { user, token } = res.data;
 
             login(user, token);
-
-            // Redirect based on role
-            switch (user.role) {
-                case 'admin':
-                    navigate('/adminDashboard');
-                    break;
-                case 'manager':
-                    navigate('/managerDashboard');
-                    break;
-                case 'supervisor':
-                    navigate('/supervisorDashboard');
-                    break;
-                case 'intern':
-                    navigate('/internDashboard');
-                    break;
-                default:
-                    navigate('/');
-            }
+            console.log(user.role);
 
         } catch (err) {
             if (err.response?.data?.error) {

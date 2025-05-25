@@ -11,7 +11,7 @@ export default function NavBar() {
     <>
       <nav>
         <ul>
-          {(user.role === 'admin') && (
+          {user.role === 'admin' && (
             <>
               <li>
                 <NavLink to="/adminDashboard">Dashboard</NavLink>
@@ -31,16 +31,13 @@ export default function NavBar() {
             </>
           )}
 
-          {(user.role === 'manager') && (
+          {user.role === 'manager' && (
             <>
               <li>
                 <NavLink to="/managerDashboard">Dashboard</NavLink>
               </li>
               <li>
                 <NavLink to="/interns">Interns</NavLink>
-              </li>
-              <li>
-                <NavLink to="/userManager">User Management</NavLink>
               </li>
               <li>
                 <NavLink to="/attendance">Attendance</NavLink>
@@ -73,12 +70,15 @@ export default function NavBar() {
               <li>
                 <NavLink to="/internSalary">Salary</NavLink>
               </li>
+              <li>
+                <NavLink to="/internAttendance">Attendance</NavLink>
+              </li>
             </>
           )}
         </ul>
       </nav>
 
-      <button onClick={logout}>logout</button>
+      <button onClick={logout}>Logout</button>
     </>
   );
 }

@@ -17,6 +17,7 @@ import Interns from './pages/Interns';
 import Attendance from './pages/Attendance';
 import Salary from './pages/Salary';
 import InternSalary from './components/InternSalary';
+import InternAttendance from './pages/InternAttendance';
 import NavBar from './components/NavBar';
 
 // Navbar for authenticated pages
@@ -128,6 +129,16 @@ function App() {
             <RoleProtectedRoute allowedRoles={['admin', 'manager', 'supervisor', 'intern']}>
               <AuthLayout>
                 <InternSalary />
+              </AuthLayout>
+            </RoleProtectedRoute>
+          }
+        />
+        <Route
+          path="/internAttendance"
+          element={
+            <RoleProtectedRoute allowedRoles={['admin', 'manager', 'supervisor', 'intern']}>
+              <AuthLayout>
+                <InternAttendance />
               </AuthLayout>
             </RoleProtectedRoute>
           }
